@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>root</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="app-1">
+      <ul>
+        <li v-for="t in task" :key="t.message">
+          <div class="task">
+            {{ t.name }} <button class="toggle">toggle</button>
+            <br />
+            <textarea>{{ t.content }}</textarea>
+            <button class="update">update</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+
+        let main_host='localhost'
+        let main_port='5000'
+      var app = new Vue({
+        el: "#app-1",
+        data() {
+          return {
+            task: [
+              {
+                name: "Codigo 1",
+                content: "print('hello')",
+              },
+              {
+                name: "Codigo 2",
+                content: "print('gustavo')",
+              },
+            ],
+          };
+        },
+        mounted() {
+          axios
+            .get("http://"+main_host+":"+main_port+"/describe")
+            .then((response) => (this.task = response.data.task));
+        },
+      });
+    </script>
+    <style>
+        body{
+            background-color: rgba(19, 26, 83, 0.616);
+        }
+        .task{
+            background-color: rgb(103, 185, 117);
+            margin: 10px;
+        }
+    </style>
+  </body>
+</html>
